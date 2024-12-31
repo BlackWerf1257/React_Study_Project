@@ -13,8 +13,7 @@ public class UserService {
 	@Autowired
 	UserRepo userRepo;
 	
-	public List<UserEntity> GetUserApiInfo()
-	{
-		return userRepo.findAll();
-	}
+	/*
+	 * public List<UserEntity> GetUserApiInfo() { return userRepo.findAll(); }
+	 */
 }

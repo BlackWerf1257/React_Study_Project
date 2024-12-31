@@ -18,9 +18,10 @@ public class UserController {
 
 
 	
-	@ResponseBody
-	@GetMapping("/getUserInfo")
-	public List<UserEntity> userApi(){
-		return userService.GetUserApiInfo();
-	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @GetMapping("/getUserInfo") public Iterable<UserEntity> userApi(){ return
+	 * //userService.GetUserApiInfo(); }
+	 */
 }
