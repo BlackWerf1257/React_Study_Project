@@ -31,9 +31,9 @@ public class ReactProjectApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		  postRepo.save(new PostEntity(null, "T1 - Tile", "T1 - Nickname" ,"T1 - Detail"));
-		  postRepo.save(new PostEntity(null, "T2 - Tile", "T2 - Nickname" ,"T2 - Detail"));
-		  postRepo.save(new PostEntity(null, "T3 - Tile", "T3 - Nickname" ,"T3 - Detail"));
+		  postRepo.save(new PostEntity(null, "T1 - Title", "T1 - Nickname" ,"T1 - Detail"));
+		  postRepo.save(new PostEntity(null, "T2 - Title", "T2 - Nickname" ,"T2 - Detail"));
+		  postRepo.save(new PostEntity(null, "T3 - Title", "T3 - Nickname" ,"T3 - Detail"));
 		 
 
 		

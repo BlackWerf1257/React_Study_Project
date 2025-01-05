@@ -1,5 +1,7 @@
 package com.example.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,14 +14,13 @@ import jakarta.persistence.Table;
 @Table(name = "userentity")
 
 public class UserEntity {
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
 	private String pwd;
 	private Integer age;
 	private String nickname;
+
 	
 	public UserEntity() {}
 	

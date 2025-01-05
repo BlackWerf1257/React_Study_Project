@@ -1,6 +1,0 @@
-# frontend
-
-run:
-```
-npx frontend
-```

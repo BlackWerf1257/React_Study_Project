@@ -12,10 +12,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "postentity")
 public class PostEntity {
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="User")
-	UserEntity user;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long idx;
