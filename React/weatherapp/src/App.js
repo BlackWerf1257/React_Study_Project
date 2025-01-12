@@ -10,7 +10,7 @@ function App() {
 	 const [isReady, setReady] = useState(false);
 	 
 	React.useEffect(() => {
-		fetch('https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=19e7da15afad9fa8336499f681778e62')
+		fetch('https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API 키}')
 			.then(result => result.json()) //API 응답을 JSON으로 변환
 			.then(jsonResult => {
 				setTemp(jsonResult.main.temp -273.15);
