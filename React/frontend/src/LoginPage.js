@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const itemBar = {
@@ -59,6 +60,9 @@ function LoginPage() {
       alert(data);
     })
     .catch((error) => console.error('Error:', error));
+    //값 가져오기 성공
+    //.then()
+    
 }
 
   return (

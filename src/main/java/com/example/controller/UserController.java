@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/api/login")
     @CrossOrigin(origins = "http://127.0.0.1:3000/") // CORS 허용
-    public String Login(@RequestParam String id, @RequestParam String pwd)
+    public String Login(@RequestParam("id") String id, @RequestParam("pwd") String pwd)
     {
     	 UserEntity user = userRepo.findByIdAndPwd(id, pwd); // ID와 비밀번호로 사용자 조회
     	 

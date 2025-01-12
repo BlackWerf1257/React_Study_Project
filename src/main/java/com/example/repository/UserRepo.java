@@ -20,5 +20,5 @@ public interface UserRepo extends CrudRepository<UserEntity, Long>
 //public interface UserRepo extends PagingAndSortingRepository<UserEntity, Integer>
 {
 	List<UserEntity> findByNickname(@Param("nickname") String nickName);
-	UserEntity findByIdAndPwd(@RequestParam(name = "id") String id, @RequestParam(name = "pwd") String pwd);
+	UserEntity findByIdAndPwd(String id, String pwd);
 }
