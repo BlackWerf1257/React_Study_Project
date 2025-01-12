@@ -16,7 +16,9 @@ import jakarta.persistence.Table;
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
+	Long userIdx;
+	
+	private String id;
 	private String pwd;
 	private Integer age;
 	private String nickname;
@@ -24,8 +26,9 @@ public class UserEntity {
 	
 	public UserEntity() {}
 	
-	public UserEntity(Long id, String pwd, Integer age, String nickname){
+	public UserEntity(Long userIdx, String id, String pwd, Integer age, String nickname){
 		super();
+		this.userIdx = userIdx;
 		this.id = id;
 		this.pwd = pwd;
 		this.age = age;
@@ -33,10 +36,26 @@ public class UserEntity {
 	}
 	
 	
-	public Long getId() {
+	public Long getUserIdx() {
+		return userIdx;
+	}
+
+	public void setUserIdx(Long userIdx) {
+		this.userIdx = userIdx;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getPwd() {

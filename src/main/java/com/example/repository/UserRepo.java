@@ -10,6 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RepositoryRestResource(path="user")
 //public interface UserRepo extends JpaRepository<UserEntity, Integer>
@@ -19,4 +20,5 @@ public interface UserRepo extends CrudRepository<UserEntity, Long>
 //public interface UserRepo extends PagingAndSortingRepository<UserEntity, Integer>
 {
 	List<UserEntity> findByNickname(@Param("nickname") String nickName);
+	UserEntity findByIdAndPwd(@RequestParam(name = "id") String id, @RequestParam(name = "pwd") String pwd);
 }

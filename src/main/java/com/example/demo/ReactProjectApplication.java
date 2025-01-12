@@ -38,14 +38,8 @@ public class ReactProjectApplication implements CommandLineRunner {
 
 		
 		
-		  userRepo.save(new UserEntity(null, "T1 - PWD", 20, "T1 - Nickname"));
-		  userRepo.save(new UserEntity(null, "T2 - PWD", 30, "T2 - Nickname"));
-		  userRepo.save(new UserEntity(null, "T3 - PWD", 40, "T3 - Nickname"));
-		 
-		
-		/*
-		 * for(UserEntity entity: userRepo.findAll()) logger.info(entity.getNickName());
-		 */
-		 
+		  userRepo.save(new UserEntity(null, "T1 - ID", "T1 - PWD", 20, "T1 - Nickname"));
+		  userRepo.save(new UserEntity(null, "T2 - ID", "T2 - PWD", 30, "T2 - Nickname"));
+		  userRepo.save(new UserEntity(null, "T3 - ID", "T3 - PWD", 40, "T3 - Nickname"));
 	}
 }
