@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -41,7 +41,7 @@ function LoginPage() {
   display: 'flex',
   position: 'relative',
   top: '60px',
-  width: 'auto',
+  width: '200px',
   justifyContent: 'center', // 가로 중앙 정렬
   backgroundColor: '#FFFFFF',
   fontSize: '25px'
@@ -49,42 +49,23 @@ function LoginPage() {
 
  const [id, SetId] = useState('');
  const [pwd, SetPwd] = useState('');
+ const [age, SetAge] = useState('');
+ const [nickname, SetNickname] = useState('');
 
  const [data, SetData] = useState('');
 
- const [isLoginAttempted, SetLoginBool] = useState('');
-
- const navigate = useNavigate();
-
- const handleLogin = () => {
-  if(id != null && pwd != null)
-  {
+ const handleRegister = () => {
   // fetch 요청 시 id와 password 상태값을 URL에 포함시킴
-  fetch(`http://localhost:8080/api/login?id=${id}&pwd=${pwd}`, { 
-    method: 'POST',
+  fetch(`http://localhost:8080/api/register?id=${id}&pwd=${pwd}&age=${age}&nickname=${nickname}`, { method: 'POST',})
+    .then((response) => response.text())
+    .then((data) => {SetData(data)
+      alert(data);
     })
-    .then((response) => response.json())
-    .then((result) => {
-      SetData( {isLoggedIn: result[0], username: result[1] });
-    })
-    .catch((error) => console.error('Error:', error)); 
-
-    SetLoginBool(true);
-  }
+    .catch((error) => console.error('Error:', error));
+    //값 가져오기 성공
+    //.then()
+    
 }
-
-
-// 로그인 상태가 변경되면 페이지 이동
-useEffect(() => {
-if(isLoginAttempted)
-{
-  if (data.isLoggedIn)
-    // 로그인 여부 및 닉네임을 페이지 이동과 함께 전달
-    navigate('/', { state: { ...data }, replace: true });
-  else 
-    alert('ID나 비밀번호가 일치하지않습니다');
-}}, [data, isLoginAttempted]); // data가 변경될 때마다 실행
- 
 
   return (
     <div style={itemBar}>
@@ -93,10 +74,18 @@ if(isLoginAttempted)
         <input style={inputStyle} onChange={val => SetId(val.target.value)}/>
       </div>
       <div style={itemContainer}>
-        <span style={spanStyle} type='text'> 비밀번호</span>
+        <span style={spanStyle}> 비밀번호</span>
         <input style={inputStyle} type='password' onChange={val => SetPwd(val.target.value)}/>
       </div>
-      <button style={btnStyle} onClick={handleLogin}> 로그인</button>
+      <div style={itemContainer}>
+        <span style={spanStyle}> 나이</span>
+        <input style={inputStyle} type='number' onChange={val => SetAge(val.target.value)}/>
+      </div>
+      <div style={itemContainer}>
+        <span style={spanStyle}> 유저명</span>
+        <input style={inputStyle} onChange={val => SetNickname(val.target.value)}/>
+      </div>
+      <button style={btnStyle} onClick={handleRegister}> 회원가입</button>
     </div>
   );
 }

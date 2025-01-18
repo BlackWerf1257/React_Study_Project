@@ -21,7 +21,7 @@ public class PostEntity {
 	
 	   public PostEntity() {}
 	
-	public PostEntity(Long idx, String title, String detail, String nickname){
+	public PostEntity(Long idx, String title, String nickname, String detail){
 		super();
 		this.idx = idx;
 		this.title = title;
