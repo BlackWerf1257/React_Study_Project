@@ -15,6 +15,7 @@ function LoginPage() {
     position: 'absolute',
     top: '50%', // 화면 중앙
     left: '50%',
+    marginTop: '50px',
     transform: 'translate(-50%, -50%)', // 정확하게 중앙 배치
   }
 

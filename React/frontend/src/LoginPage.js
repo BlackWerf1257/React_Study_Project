@@ -13,6 +13,7 @@ function LoginPage() {
     flexDirection: 'column', // 세로로 정렬
     fontSize: '30px',
     position: 'absolute',
+    marginTop: '50px',
     top: '50%', // 화면 중앙
     left: '50%',
     transform: 'translate(-50%, -50%)', // 정확하게 중앙 배치
@@ -20,11 +21,10 @@ function LoginPage() {
 
  const itemContainer = {  
   display: 'flex',
-  width: 'auto',
+  width: '100%', // 부모 컨테이너에 대해 100% 너비 설정
   height: 'auto',
   justifyContent: 'flex-start', // 기본적으로 왼쪽 정렬
   marginBottom: '20px', // 아이템 간격
-  width: '100%', // 부모 컨테이너에 대해 100% 너비 설정
  }
  const spanStyle = {
   marginLeft: '30px', // 오른쪽 정렬을 위해 자동 여백을 설정
@@ -66,10 +66,11 @@ function LoginPage() {
     .then((response) => response.json())
     .then((result) => {
       SetData( {isLoggedIn: result[0], username: result[1] });
+
+      const isLoggedIn = result[0];
+      isLoggedIn ? SetLoginBool(true) : SetLoginBool(false);
     })
     .catch((error) => console.error('Error:', error)); 
-
-    SetLoginBool(true);
   }
 }
 
@@ -84,6 +85,7 @@ if(isLoginAttempted)
   else 
     alert('ID나 비밀번호가 일치하지않습니다');
 }}, [data, isLoginAttempted]); // data가 변경될 때마다 실행
+
  
 
   return (

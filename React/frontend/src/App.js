@@ -1,192 +1,235 @@
 import { useState, useEffect } from 'react';
-import { Link, Routes, Route } from 'react-router-dom'; // 페이지 이동용
-import { useNavigate } from 'react-router-dom';
-import LoginPage from './LoginPage'
-import RegisterPage from './RegisterPage'
-import { useLocation } from 'react-router-dom';
-
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
+import ViewPost from './ViewPost';
+import NewPost from './NewPost';
 
 function App() {
   //CSS
-  //justify-content: center : 컴포넌트를 정렬할 위치
- const topStyle = {
+  const topStyle = {
     backgroundColor: '#D7FFF0',
     border: 'solid',
     height: '80px',
+    width: 'auto',
     display: 'flex',
     position: 'relative',
     alignItems: 'center', // 세로 중앙 정렬
     justifyContent: 'center', // 가로 중앙 정렬
-  }
- const btnStyle = {
-  padding: '20px 20px',
-  backgroundColor: '#FFFFFF',
-  fontSize: '12px',
-  marginLeft: 'auto',
-  marginRight: '60px',
-  width: 'auto',
-  display: 'inline-block', // 버튼 크기를 텍스트에 맞게 조정
-  flexShrink: 0, // 자식 박스의 다음줄로 넘어가는것 방지
   };
 
+  const btnStyle = {
+    padding: '20px 20px',
+    backgroundColor: '#FFFFFF',
+    fontSize: '12px',
+    marginLeft: 'auto',
+    marginRight: '60px',
+    width: 'auto',
+    display: 'inline-block',
+    flexShrink: 0,
+  };
 
- const LoggedtextStyle = {
+  const LoggedtextStyle = {
     display: 'flex',
-    alignItems: 'center', 
+    alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     fontSize: '40px',
     marginLeft: '200px',
- }
- const LogOutedtextStyle = {
-  display: 'flex',
-  position: 'relative',
-  alignItems: 'center', 
-  justifyContent: 'center',
-  width: '100%',
-  fontSize: '40px',
-  marginLeft: '360px',
-}
- const userNameTextStyle = {
-  display: 'flex',
-  alignItems: 'center', 
-  justifyContent: 'top',
-  width: '100%',
-  position: 'relative',
-  top: '20px',
-  fontSize: '20px',
-}
+  };
 
+  const LogOutedtextStyle = {
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    fontSize: '40px',
+    marginLeft: '400px',
+  };
 
-const PostContrainerStyle = {
-  backgroundColor: '#FFFFFF',
-  border: 'solid',
-  height: 'auto',
-  display: 'flex',
-  marginTop: '100px',
-  position: 'relative',
-  alignItems: 'start', // 가로 중앙 정렬
-  justifyContent: 'start', // 세로 중앙 정렬
-  flexDirection: 'column', // 세로로 정렬
-  borderWidth: 'thin',
-  minHeight: 'calc(100vh - 215px)', // 최소 높이(100vh: 부모태그의 길이의 100%)
-}
-const PostPreviewContrainerStyle = {
-  backgroundColor: '#FFFFFF',
-  border: 'solid',
-  width: '80%',
-  height: '10%',
-  display: 'flex',
-  marginBottom: '10px',
-  position: 'relative',
-  alignItems: 'center', // 세로 중앙 정렬
-  justifyContent: 'center', // 가로 중앙 정렬
-  borderWidth: 'thin'
-}
+  const userNameTextStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: '30px',
+    width: '100%',
+    position: 'relative',
+    top: '20px',
+    fontSize: '20px',
+  };
 
- //회원가입
- const register = () => {
-  navigate('/register')
- };
- //로그인
- const login = () => {
-  navigate('/login')
-}
-  //로그아웃
+  const PostContrainerStyle = {
+    backgroundColor: '#FFFFFF',
+    border: 'solid',
+    width: '80%',
+    height: 'auto',
+    display: 'flex',
+    marginTop: '80px',
+    marginLeft: '180px',
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'start',
+    flexDirection: 'column',
+    borderWidth: 'thin',
+    minHeight: 'calc(100vh - 230px)',
+  };
+
+  const PostPreviewContrainerStyle = {
+    backgroundColor: '#FFFFFF',
+    border: 'solid',
+    width: '100%',
+    margin: '10px auto',
+    height: '10%',
+    display: 'flex',
+    marginTop: '10px',
+    marginBottom: '10px',
+    position: 'relative',
+    alignItems: 'start',
+    borderWidth: 'thin',
+    flexDirection: 'column',
+    minWidth: '1000px',
+  };
+
+  const PostPreviewUpperContainer = {
+    width: 'auto',
+    height: 'auto',
+    display: 'flex',
+    marginBottom: '10px',
+    marginLeft: '30px',
+    position: 'relative',
+    alignItems: 'start',
+    justifyContent: 'start',
+    borderWidth: 'thin',
+  };
+
+  const titleStyle = {
+    marginRight: '30px',
+    justifyContent: 'start',
+  };
+
+  const previewTextStyle = {
+    marginLeft: '30px',
+  };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [postInfo, SetPostInfo] = useState([]);
+  const [userName, SetUserName] = useState('');
+  const [isLogged, SetIsLogged] = useState(false);
+
+  // State에서 값을 추출
+  const { username, isLoggedIn } = location.state || {}; // 전달된 state에서 값 추출
+
+  // 포스트 가져오기
+  const GetPosts = () => {
+    fetch('http://localhost:8080/posts')
+      .then((response) => response.json())
+      .then((result) => {
+        SetPostInfo(result);
+      })
+      .catch((error) => alert(error));
+  };
+
+  // 페이지 이동 함수
+  const mainPage = () => {
+    navigate('/');
+  }
+  const register = () => {
+    navigate('/register');
+  };
+  const login = () => {
+    navigate('/login');
+  };
   const logout = () => {
     alert('로그아웃되었습니다');
     SetIsLogged(false);
     SetUserName('');
-   };
+  };
+  const newPost = () => {
+    navigate('/newPost', { state  : {userName, isLogged }});
+  };
 
-   const [postInfo, SetPostInfo] = useState([]);
-
-   //포스트 가져오기
-   const GetPosts = () => {
-    fetch('http://localhost:8080/posts', { method: 'GET',})
-    .then((response) => response.json())
-    .then((result) => {
-      SetPostInfo( result);
-    })
-    .catch((error) => alert(error));
+  const viewPost = (post) => {
+    navigate('/viewPost', { state: {post, isLogged}});
   };
 
   
+  useEffect(() => {
+    if (username && isLoggedIn !== undefined) {
+      SetUserName(username);
+      SetIsLogged(isLoggedIn);
+    }
+  }, [username, isLoggedIn]);
 
-   const navigate = useNavigate();
+  useEffect(() => {
+    GetPosts();
+  }, []);
 
-//State에서 값을  추출
-const location = useLocation();
-const { username, isLoggedIn } = location.state || {}; // 전달된 state에서 값 추출
-
-// 로그인 데이터 상태
-const [userName, SetUserName] = useState('');
-const [isLogged, SetIsLogged] = useState(false);
-
-// username과 isLoggedIn이 변경되었을 때 상태를 업데이트
-useEffect(() => {
-  if (username && isLoggedIn !== undefined) {
-    SetUserName(username);
-    SetIsLogged(isLoggedIn);
-  }
-}, [username, isLoggedIn]); // username과 isLoggedIn이 변경될 때마다 실행
-
-
-useEffect(() => {
-  GetPosts();
-}, []); //첫로딩때만 실행
-useEffect(() => {
-    
-}, [postInfo]);
-
-
-const postItems = postInfo.map(idx => {
-  //li: 리스트 아이템
-  return(
-  <li style={PostPreviewContrainerStyle} key={idx}>
-    <h3>{idx + 1}. {postInfo.title}</h3>
-    <p>작성자: {postInfo.nickname}</p>
-    <p>내용: {postInfo.detail}</p>
-  </li>
-  );
-});
-
+  //기존 컴포넌트 렌더링 취소용(location.pathname 사용)
+  //location.pathname: JS에서 hostname의 뒤 문자 '/' 뒤의 문자 경로를 반환
+  const RenderPreviewPosts = location.pathname === '/';
 
   return (
     <div>
       <div style={topStyle}>
-        {
-          !isLogged ? 
-          <> 
-                  <span style={LogOutedtextStyle}> React 공부용 사이트 </span>
-                  <button style={btnStyle} onClick={login}> 로그인</button>
-                  <button style={btnStyle} onClick={register}> 회원가입</button>
-          </> 
-          :
-          <>    
-            <span style={LoggedtextStyle}> React 공부용 사이트 </span>
-            <button style={btnStyle} onClick={logout}> 글 작성하기</button>
-            <button style={btnStyle} onClick={logout}> 로그아웃</button>
-          </>     
-        }
-      </div>
-      <div>
-          { isLogged ? <span style={userNameTextStyle}> {userName}님 안녕하세요 </span> : <span style={userNameTextStyle}> 로그인을 해주세요 </span> }
-      </div>
+            {!isLogged ? (
+              <>
+                <span style={LogOutedtextStyle} onClick={mainPage}> React 공부용 사이트 </span>
+                <button style={btnStyle} onClick={login}> 로그인 </button>
+                <button style={btnStyle} onClick={register}> 회원가입 </button>
+              </>
+            ) : (
+              <>
+                <span style={LoggedtextStyle} onClick={mainPage}> React 공부용 사이트 </span>
+                <button style={btnStyle} onClick={newPost}> 글 작성하기
+                </button>
+                <button style={btnStyle} onClick={logout}> 로그아웃 </button>
+              </>
+            )}
+          </div>
 
-      <div style={PostContrainerStyle}>
-        <span style={LoggedtextStyle}> 게시물 목록 </span>
-          {postInfo.length > 0 ? (
-              postItems // 중괄호를 추가로 사용하지 않습니다
-          ) : (
+          
+      {RenderPreviewPosts && (
+        <>
+          <div>
+            {isLogged ? (
+              <span style={userNameTextStyle}> {userName}님 안녕하세요 </span>
+            ) : (
+              <span style={userNameTextStyle}>로그인을 해주세요</span>
+            )}
+          </div>
+          <div style={PostContrainerStyle}>
+            <span style={LoggedtextStyle}>게시물 목록</span>
+            {postInfo.length > 0 ? (
+              <ul>
+                {postInfo.map((post, index) => (
+                  <li style={PostPreviewContrainerStyle} key={index} onClick={() => viewPost(post)}>
+                    <div style={PostPreviewUpperContainer}>
+                      <h3 style={titleStyle}>
+                        {post.index}. 제목: {post.title}
+                      </h3>
+                      <p>작성자: {post.nickname}</p>
+                    </div>
+                    <p style={previewTextStyle}>내용: {post.detail}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
               <p>게시물이 없습니다.</p>
-          )}
-        </div>
+            )}
+          </div>
+        </>
+      )}
 
+      {/* Routes: 페이지 별로 컴포넌트 렌더링 */}
       <Routes>
         <Route path="/" element={<div></div>} />
-        <Route path="/login" element={<LoginPage />} /> {/* /login 경로에서 LoginPage 컴포넌트를 렌더링 */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/viewPost" element={<ViewPost />} />
+        <Route path="/newPost" element={<NewPost />} />
       </Routes>
     </div>
   );
